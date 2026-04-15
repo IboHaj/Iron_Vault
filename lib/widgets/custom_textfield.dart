@@ -61,7 +61,6 @@ class _CustomTextfieldState extends State<CustomTextfield> {
         suffixIcon: widget.readOnly
             ? IconButton(
                 onPressed: () {
-                  print("here");
                   Clipboard.setData(ClipboardData(text: widget.controller.text));
                   // ScaffoldMessenger.of(
                   //   context,

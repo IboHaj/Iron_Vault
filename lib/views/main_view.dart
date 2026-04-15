@@ -66,7 +66,7 @@ class MainView extends HookConsumerWidget {
           body: LayoutBuilder(
             builder: (context, constraints) => Padding(
               padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth > 600 ? 8 : 4),
-              child: isTablet.value && MediaQuery.of(context).orientation == Orientation.landscape
+              child: isTablet.value && isLandscape.value
                   ? Row(
                       spacing: 10,
                       children: [

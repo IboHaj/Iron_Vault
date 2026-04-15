@@ -104,13 +104,13 @@ class DetailedCredentialsView extends HookConsumerWidget {
                                   child: AbsorbPointer(
                                     absorbing: !isEdit.value,
                                     child: IconButton(
-                                      onPressed: () => isFavorite.value = !isFavorite.value!,
+                                      onPressed: () => isFavorite.value = !isFavorite.value,
                                       icon: Icon(
-                                        isFavorite.value!
+                                        isFavorite.value
                                             ? Icons.favorite
                                             : Icons.favorite_border_outlined,
                                         size: constraints.maxWidth > 600 ? 48 : 32,
-                                        color: isFavorite.value! ? Colors.red : Colors.white,
+                                        color: isFavorite.value ? Colors.red : Colors.white,
                                       ),
                                       tooltip: "Favorite",
                                     ),
