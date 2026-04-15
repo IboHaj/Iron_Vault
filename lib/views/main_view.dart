@@ -18,8 +18,8 @@ class MainView extends HookConsumerWidget {
     final AsyncValue values = ref.watch(allCredentialsProvider);
     var value = useState(0);
     var searchController = useSearchController();
-    print(MediaQuery.of(context).size.shortestSide);
-    bool isTablet = MediaQuery.of(context).size.shortestSide > 600;
+    var isLandscape = useState(MediaQuery.of(context).orientation == Orientation.landscape);
+    var isTablet = useState(MediaQuery.sizeOf(context).shortestSide > 600);
     ValueNotifier<Credentials?> currentlySelectedCredentials = useState(null);
 
     List<Credentials> recentList = [
@@ -66,7 +66,7 @@ class MainView extends HookConsumerWidget {
           body: LayoutBuilder(
             builder: (context, constraints) => Padding(
               padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth > 600 ? 8 : 4),
-              child: isTablet && MediaQuery.of(context).orientation == Orientation.landscape
+              child: isTablet.value && MediaQuery.of(context).orientation == Orientation.landscape
                   ? Row(
                       spacing: 10,
                       children: [
@@ -134,7 +134,7 @@ class MainView extends HookConsumerWidget {
                                       child: CustomListTile(
                                         credentials: searchResult[index].values.first,
                                         isInSearch: true,
-                                        isInTablet: isTablet,
+                                        isInTablet: isTablet.value,
                                         onTap: (credentials) =>
                                             currentlySelectedCredentials.value = credentials,
                                       ),
@@ -186,7 +186,7 @@ class MainView extends HookConsumerWidget {
                                             : value.value == 1
                                             ? recentList[index]
                                             : favorites[index].values.first,
-                                        isInTablet: isTablet,
+                                        isInTablet: isTablet.value,
                                         onTap: (credentials) {
                                           return currentlySelectedCredentials.value = credentials;
                                         },
@@ -280,7 +280,7 @@ class MainView extends HookConsumerWidget {
                                 child: CustomListTile(
                                   credentials: searchResult[index].values.first,
                                   isInSearch: true,
-                                  isInTablet: isTablet,
+                                  isInTablet: isTablet.value,
                                 ),
                               ),
                             );
@@ -326,7 +326,7 @@ class MainView extends HookConsumerWidget {
                                       : value.value == 1
                                       ? recentList[index]
                                       : favorites[index].values.first,
-                                  isInTablet: isTablet,
+                                  isInTablet: isTablet.value,
                                 );
                               },
                               itemCount: value.value == 0
