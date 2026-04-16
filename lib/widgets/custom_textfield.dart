@@ -31,6 +31,9 @@ class _CustomTextfieldState extends State<CustomTextfield> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: (value) {
+        print(value);
+      },
       validator: (value) {
         if(widget.isRequired) {
           if(value == null || value.isEmpty) return "";

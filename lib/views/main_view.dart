@@ -79,6 +79,7 @@ class MainView extends HookConsumerWidget {
                             spacing: constraints.maxWidth > 600 ? 24 : 12,
                             children: [
                               SearchAnchor(
+                                isFullScreen: !isTablet.value,
                                 searchController: searchController,
                                 builder: (context, searchController) {
                                   return SearchBar(
@@ -135,8 +136,10 @@ class MainView extends HookConsumerWidget {
                                         credentials: searchResult[index].values.first,
                                         isInSearch: true,
                                         isInTablet: isTablet.value,
-                                        onTap: (credentials) =>
-                                            currentlySelectedCredentials.value = credentials,
+                                        onTap: (credentials) {
+                                          currentlySelectedCredentials.value = credentials;
+                                          Navigator.of(context).pop();
+                                        },
                                       ),
                                     ),
                                   );
