@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:iron_vault/models/credentials.dart';
 import 'package:iron_vault/notifiers/credentials_holder_notifier.dart';
+import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/widgets/custom_snackbar.dart';
 import 'package:iron_vault/widgets/custom_textfield.dart';
 import 'package:intl/intl.dart';
@@ -178,6 +179,23 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                                   label: "Password",
                                   controller: passwordTEC,
                                   readOnly: !isEdit.value,
+                                  isPassword: true,
+                                  iconOnClick: () {
+                                    if (useSymbols.value || useNumbers.value || useAlphabet.value) {
+                                      passwordTEC.text = Utils.generatePassword(
+                                        passwordLength.value.toInt(),
+                                        useSymbols.value,
+                                        useAlphabet.value,
+                                        useNumbers.value,
+                                      );
+                                    } else {
+                                      CustomSnackbar.show(
+                                        context,
+                                        SnackBarUse.info,
+                                        "Please select one of the three password generation settings",
+                                      );
+                                    }
+                                  },
                                 ),
                                 CustomTextfield(
                                   label: "Note",

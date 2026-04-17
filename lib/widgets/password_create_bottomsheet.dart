@@ -47,19 +47,19 @@ class _PasswordCreateBottomSheetState extends ConsumerState<PasswordCreateBottom
               right: constraints.maxWidth > 600 ? 12 : 8,
               top: constraints.maxWidth > 600 ? 12 : 8,
             ),
-            height: MediaQuery.of(ctx).size.height,
+            height: MediaQuery.of(ctx).size.height * 0.85,
             width: MediaQuery.of(ctx).size.width,
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               body: SingleChildScrollView(
                 child: SizedBox(
-                  height: MediaQuery.of(ctx).size.height,
+                  height: MediaQuery.of(ctx).size.height * 0.85,
                   width: MediaQuery.of(ctx).size.width,
                   child: Column(
                     mainAxisAlignment: .center,
                     mainAxisSize: .max,
                     crossAxisAlignment: .center,
-                    spacing: constraints.maxWidth > 600 ? 18 : 10,
+                    spacing: constraints.maxWidth > 600 ? 18 : 12,
                     children: [
                       Expanded(
                         flex: 1,
@@ -70,7 +70,7 @@ class _PasswordCreateBottomSheetState extends ConsumerState<PasswordCreateBottom
                         child: Form(
                           key: key,
                           child: Column(
-                            spacing: 10,
+                            spacing: 4,
                             mainAxisAlignment: .start,
                             mainAxisSize: .min,
                             crossAxisAlignment: .center,
@@ -109,39 +109,26 @@ class _PasswordCreateBottomSheetState extends ConsumerState<PasswordCreateBottom
                               ),
                               Expanded(
                                 flex: 2,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 3,
-                                      child: CustomTextfield(
-                                        label: "Password",
-                                        controller: widget.passwordTEC,
-                                        icon: Icon(
-                                          Icons.auto_fix_high_outlined,
-                                          size: 32,
-                                          color: Colors.white,
-                                        ),
-                                        iconOnClick: () {
-                                          if (useSymbols.value ||
-                                              useNumbers.value ||
-                                              useAlphabet.value) {
-                                            widget.passwordTEC.text = Utils.generatePassword(
-                                              passwordLength.value.toInt(),
-                                              useSymbols.value,
-                                              useAlphabet.value,
-                                              useNumbers.value,
-                                            );
-                                          } else {
-                                            CustomSnackbar.show(
-                                              ctx,
-                                              SnackBarUse.info,
-                                              "Please select one of the three password generation settings",
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ],
+                                child: CustomTextfield(
+                                  label: "Password",
+                                  controller: widget.passwordTEC,
+                                  isPassword: true,
+                                  iconOnClick: () {
+                                    if (useSymbols.value || useNumbers.value || useAlphabet.value) {
+                                      widget.passwordTEC.text = Utils.generatePassword(
+                                        passwordLength.value.toInt(),
+                                        useSymbols.value,
+                                        useAlphabet.value,
+                                        useNumbers.value,
+                                      );
+                                    } else {
+                                      CustomSnackbar.show(
+                                        ctx,
+                                        SnackBarUse.info,
+                                        "Please select one of the three password generation settings",
+                                      );
+                                    }
+                                  },
                                 ),
                               ),
                               Expanded(
