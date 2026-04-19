@@ -28,11 +28,19 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
   @override
   void initState() {
     super.initState();
-    copiedCredentials = widget.credentials!;
+    copiedCredentials = widget.credentials;
     titleTEC = TextEditingController(text: copiedCredentials?.title);
     usernameTEC = TextEditingController(text: copiedCredentials?.username);
     passwordTEC = TextEditingController(text: copiedCredentials?.password);
     noteTEC = TextEditingController(text: copiedCredentials?.note);
+  }
+
+  @override
+  void didUpdateWidget(covariant DetailedCredentialsView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.credentials != widget.credentials) {
+      copiedCredentials = widget.credentials;
+    }
   }
 
   @override
@@ -53,23 +61,24 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
         scrolledUnderElevation: 0.0,
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
-            onPressed: () {
-              if (isEdit.value) {
-                titleTEC.text = copiedCredentials!.title!;
-                usernameTEC.text = copiedCredentials!.username!;
-                passwordTEC.text = copiedCredentials!.password!;
-                noteTEC.text = copiedCredentials!.note!;
-                isFavorite.value = copiedCredentials!.favorited!;
-              }
-              isEdit.value = !isEdit.value;
-            },
-            icon: Icon(
-              isEdit.value ? Icons.cancel_outlined : Icons.edit,
-              color: Colors.white,
-              size: MediaQuery.sizeOf(context).width > 600 ? 32 : 24,
+          if (copiedCredentials != null)
+            IconButton(
+              onPressed: () {
+                if (isEdit.value) {
+                  titleTEC.text = copiedCredentials!.title!;
+                  usernameTEC.text = copiedCredentials!.username!;
+                  passwordTEC.text = copiedCredentials!.password!;
+                  noteTEC.text = copiedCredentials!.note!;
+                  isFavorite.value = copiedCredentials!.favorited!;
+                }
+                isEdit.value = !isEdit.value;
+              },
+              icon: Icon(
+                isEdit.value ? Icons.cancel_outlined : Icons.edit,
+                color: Colors.white,
+                size: MediaQuery.sizeOf(context).width > 600 ? 32 : 24,
+              ),
             ),
-          ),
         ],
         centerTitle: true,
       ),

@@ -191,7 +191,7 @@ class MainView extends HookConsumerWidget {
                                             : favorites[index].values.first,
                                         isInTablet: isTablet.value,
                                         onTap: (credentials) {
-                                          return currentlySelectedCredentials.value = credentials;
+                                          currentlySelectedCredentials.value = credentials;
                                         },
                                       );
                                     },
