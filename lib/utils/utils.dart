@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:iron_vault/utils/constants.dart';
 
 class Utils {
@@ -18,4 +19,9 @@ class Utils {
 
     return password;
   }
+}
+
+extension Sized on BuildContext {
+  double get screenHeight => MediaQuery.sizeOf(this).height;
+  double get screenWidth => MediaQuery.sizeOf(this).width;
 }
