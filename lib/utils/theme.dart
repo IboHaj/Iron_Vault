@@ -14,7 +14,7 @@ class MaterialTheme {
     titleSmall: GoogleFonts.spaceGrotesk().copyWith(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w400),
     bodyLarge: GoogleFonts.robotoSerif().copyWith(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
     bodyMedium: GoogleFonts.robotoSerif().copyWith(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
-    bodySmall: GoogleFonts.robotoSerif().copyWith(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
+    bodySmall: GoogleFonts.robotoSerif().copyWith(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300),
     labelLarge: GoogleFonts.inter().copyWith(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.w600),
     labelMedium: GoogleFonts.inter().copyWith(color: Colors.grey, fontSize: 20, fontWeight: FontWeight.w600),
     labelSmall: GoogleFonts.inter().copyWith(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.w600),

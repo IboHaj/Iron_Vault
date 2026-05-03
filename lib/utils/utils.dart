@@ -19,9 +19,23 @@ class Utils {
 
     return password;
   }
+
+  static int determinePasswordStrength(String password) {
+    int strenthLvl = 0;
+    if(password.contains(RegExp(r'\d'))) strenthLvl += 1;
+    if(password.contains(RegExp(r'[!@#%^&*(),.?":{}|<>]'))) strenthLvl += 1;
+    if(password.contains(RegExp(r'[a-zA-Z]'))) strenthLvl += 1;
+    if(password.length > 25) strenthLvl += 1;
+
+    return strenthLvl;
+  }
 }
 
 extension Sized on BuildContext {
   double get screenHeight => MediaQuery.sizeOf(this).height;
   double get screenWidth => MediaQuery.sizeOf(this).width;
+  bool get isSmallScreen => screenWidth < 400;
+  bool get isMediumScreen => screenWidth > 400 && screenWidth < 600;
+  bool get isTablet => screenWidth > 600;
+  double get scaled => isSmallScreen ? 0.75 : isMediumScreen ? 1 : 2;
 }
