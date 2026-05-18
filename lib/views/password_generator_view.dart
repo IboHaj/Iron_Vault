@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/widgets/custom_snackbar.dart';
+import 'package:iron_vault/widgets/custom_tile_switch.dart';
 
 class PasswordGeneratorView extends HookConsumerWidget {
   const PasswordGeneratorView({super.key});
@@ -251,66 +252,59 @@ class PasswordGeneratorView extends HookConsumerWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: context.isTablet
-                              ? context.screenHeight * 0.4
-                              : context.screenHeight * 0.2,
-
-                          child: Container(
-                            padding: const EdgeInsetsGeometry.all(15),
-                            margin: const EdgeInsetsGeometry.only(top: 10),
-                            decoration: ShapeDecoration(
-                              color: Theme.of(context).colorScheme.secondaryContainer,
-                              shape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(12)),
-                              ),
+                        Container(
+                          padding: const EdgeInsetsGeometry.all(15),
+                          margin: const EdgeInsetsGeometry.symmetric(vertical: 10),
+                          decoration: ShapeDecoration(
+                            color: Theme.of(context).colorScheme.secondaryContainer,
+                            shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(12)),
                             ),
-                            child: Column(
-                              mainAxisAlignment: .spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: .spaceBetween,
-                                  children: [
-                                    Text(
-                                      "PASSWORD LENGTH",
+                          ),
+                          child: Column(
+                            mainAxisAlignment: .spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: .spaceBetween,
+                                children: [
+                                  Text(
+                                    "PASSWORD LENGTH",
+                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      fontSize: 20 * context.scaled,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsetsGeometry.symmetric(
+                                      horizontal: 10,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(color: Colors.black),
+                                    child: Text(
+                                      sliderValue.value.toInt().toString(),
                                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        color: Theme.of(context).colorScheme.primaryContainer,
                                         fontSize: 20 * context.scaled,
-                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Container(
-                                      padding: EdgeInsetsGeometry.symmetric(
-                                        horizontal: 10,
-                                        vertical: 8,
-                                      ),
-                                      decoration: BoxDecoration(color: Colors.black),
-                                      child: Text(
-                                        sliderValue.value.toInt().toString(),
-                                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                          color: Theme.of(context).colorScheme.primaryContainer,
-                                          fontSize: 20 * context.scaled,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Slider(
-                                  thumbColor: Theme.of(context).colorScheme.primaryContainer,
-                                  activeColor: Theme.of(context).colorScheme.primaryContainer,
-                                  value: sliderValue.value,
-                                  min: 8.0,
-                                  max: 40.0,
-                                  divisions: 32,
-                                  onChanged: (value) {
-                                    sliderValue.value = value;
-                                  },
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                              Slider(
+                                thumbColor: Theme.of(context).colorScheme.primaryContainer,
+                                activeColor: Theme.of(context).colorScheme.primaryContainer,
+                                value: sliderValue.value,
+                                min: 8.0,
+                                max: 40.0,
+                                divisions: 32,
+                                onChanged: (value) {
+                                  sliderValue.value = value;
+                                },
+                              ),
+                            ],
                           ),
                         ),
                         CustomTileSwitch(
-                          height: constraints.maxHeight * 0.17,
                           width: constraints.maxWidth,
                           onChanged: (value) {
                             useAlphabet.value = value;
@@ -319,7 +313,6 @@ class PasswordGeneratorView extends HookConsumerWidget {
                           subtitle: "AaBbCc",
                         ),
                         CustomTileSwitch(
-                          height: constraints.maxHeight * 0.17,
                           width: constraints.maxWidth,
                           onChanged: (value) {
                             useNumbers.value = value;
@@ -328,7 +321,6 @@ class PasswordGeneratorView extends HookConsumerWidget {
                           subtitle: "01234",
                         ),
                         CustomTileSwitch(
-                          height: constraints.maxHeight * 0.17,
                           width: constraints.maxWidth,
                           onChanged: (value) {
                             useSymbols.value = value;
@@ -344,68 +336,6 @@ class PasswordGeneratorView extends HookConsumerWidget {
             ],
           );
         },
-      ),
-    );
-  }
-}
-
-class CustomTileSwitch extends HookWidget {
-  final double height;
-  final double width;
-  final ValueSetter<bool> onChanged;
-  final String title;
-  final String subtitle;
-
-  const CustomTileSwitch({
-    super.key,
-    required this.height,
-    required this.width,
-    required this.onChanged,
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    var switchState = useState(false);
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      height: height,
-      width: width,
-      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-      decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryContainer),
-      child: Row(
-        mainAxisAlignment: .spaceBetween,
-        mainAxisSize: .max,
-        children: [
-          Column(
-            mainAxisAlignment: .spaceBetween,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20 * context.scaled,
-                ),
-              ),
-              Text(
-                subtitle,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelSmall?.copyWith(fontSize: 16 * context.scaled),
-              ),
-            ],
-          ),
-          Switch(
-            activeThumbColor: Theme.of(context).colorScheme.surface,
-            activeTrackColor: Theme.of(context).colorScheme.primaryContainer,
-            value: switchState.value,
-            onChanged: (value) {
-              onChanged.call(value);
-              switchState.value = value;
-            },
-          ),
-        ],
       ),
     );
   }

@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:iron_vault/utils/utils.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
-  final double appbarHeight;
+  final double? appbarHeight;
   final String title;
   final Widget? leadingIcon;
-  final bool? showLockIcon;
   final bool? centerTitle;
   final TextStyle? titleStyle;
   final Color? bgColor;
   final List<Widget>? trailing;
+  final IconData? titleIcon;
 
   const CustomAppbar({
     super.key,
-    required this.appbarHeight,
     required this.title,
+    this.appbarHeight,
     this.leadingIcon,
-    this.showLockIcon = true,
     this.centerTitle = false,
     this.titleStyle,
+    this.titleIcon,
     this.bgColor,
-    this.trailing
+    this.trailing,
   });
 
   @override
@@ -37,20 +37,19 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: .start,
         spacing: context.screenWidth > 600 ? 12 : 8,
         children: [
-          if (showLockIcon!)
+          if (titleIcon != null)
             Icon(
-              Icons.lock,
-              size: context.screenHeight > 600 ? 36 : 24,
+              titleIcon,
+              size: 32,
               color: Theme.of(context).colorScheme.primaryContainer,
             ),
           Text(
             title,
             style:
                 titleStyle ??
-                Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontStyle: FontStyle.italic,
+                Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontSize: 28 * context.scaled,
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
           ),
         ],
@@ -60,5 +59,5 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(appbarHeight);
+  Size get preferredSize => Size.fromHeight(appbarHeight ?? 56);
 }

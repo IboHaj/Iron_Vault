@@ -31,6 +31,8 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
   late Credentials? copiedCredentials;
 
   late AnimationController circleController;
+  late AnimationController circleController2;
+  late AnimationController circleController3;
   late Animation<double> circleAnimation;
   late AnimationController keyController;
   late Animation<double> keyAnimation;
@@ -45,18 +47,24 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
     noteTEC = TextEditingController(text: copiedCredentials?.note);
 
     circleController = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    circleController2 = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    circleController3 = AnimationController(vsync: this, duration: const Duration(seconds: 2));
     keyController = AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     circleAnimation = Tween<double>(begin: 0.0, end: 2 * pi).animate(circleController);
     keyAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(keyController);
 
     circleController.repeat();
+    circleController2.repeat();
+    circleController3.repeat();
     keyController.repeat();
   }
 
   @override
   void dispose() {
     circleController.dispose();
+    circleController2.dispose();
+    circleController3.dispose();
     keyController.dispose();
     super.dispose();
   }
@@ -102,6 +110,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                             .read(allCredentialsProvider.notifier)
                             .deleteCredentials(copiedCredentials!);
                       }
+                      passwordStrength.value = Utils.determinePasswordStrength(passwordTEC.text);
                       copiedCredentials = Credentials(
                         title: titleTEC.text,
                         username: usernameTEC.text,
@@ -129,14 +138,10 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                   ),
                 ),
         ],
-        appbarHeight: context.isMediumScreen || context.isTablet
-            ? context.screenHeight * 0.065
-            : context.screenHeight * 0.08,
         title: "ENTRY DETAILS",
         titleStyle: Theme.of(
           context,
         ).textTheme.headlineMedium?.copyWith(color: Theme.of(context).colorScheme.primary),
-        showLockIcon: false,
         centerTitle: true,
         bgColor: Theme.of(context).colorScheme.shadow,
         leadingIcon: isEdit.value
@@ -211,25 +216,85 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                                   animation: keyController,
                                 ),
                               ),
-                              Center(
-                                child: AnimatedBuilder(
-                                  animation: circleController,
-                                  builder: (context, child) => Transform(
-                                    alignment: Alignment.center,
-                                    transform: Matrix4.identity()..rotateX(circleAnimation.value),
-                                    child: Container(
-                                      width: context.screenWidth * 0.155,
-                                      height: context.screenHeight * 0.06,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: Colors.white, width: 1.5),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withValues(alpha: 0.1),
-                                            spreadRadius: 5,
-                                            blurRadius: 3,
-                                          ),
-                                        ],
+                              Visibility(
+                                visible: passwordStrength.value > 0,
+                                child: Center(
+                                  child: AnimatedBuilder(
+                                    animation: circleController,
+                                    builder: (context, child) => Transform(
+                                      alignment: Alignment.center,
+                                      transform: Matrix4.identity()..rotateX(circleAnimation.value),
+                                      child: Container(
+                                        width: context.screenWidth * 0.155,
+                                        height: context.screenHeight * 0.06,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: Colors.white, width: 1.5),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withValues(alpha: 0.1),
+                                              spreadRadius: 5,
+                                              blurRadius: 3,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Visibility(
+                                visible: passwordStrength.value > 2,
+                                child: Center(
+                                  child: AnimatedBuilder(
+                                    animation: circleController2,
+                                    builder: (context, child) => Transform(
+                                      alignment: Alignment.center,
+                                      transform: Matrix4.identity()..rotateY(circleAnimation.value),
+                                      child: Container(
+                                        width: context.screenWidth * 0.155,
+                                        height: context.screenHeight * 0.06,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: Colors.white, width: 1.5),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withValues(alpha: 0.1),
+                                              spreadRadius: 5,
+                                              blurRadius: 3,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Visibility(
+                                visible: passwordStrength.value > 3,
+                                child: Center(
+                                  child: AnimatedBuilder(
+                                    animation: circleController3,
+                                    builder: (context, child) => Transform(
+                                      alignment: Alignment.center,
+                                      transform: Matrix4.identity()
+                                        ..rotateY(-circleAnimation.value)
+                                        ..rotateZ(circleAnimation.value)
+                                        ..rotateX(-circleAnimation.value),
+                                      child: Container(
+                                        width: context.screenWidth * 0.155,
+                                        height: context.screenHeight * 0.06,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: Colors.white, width: 1.5),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withValues(alpha: 0.1),
+                                              spreadRadius: 5,
+                                              blurRadius: 3,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -298,7 +363,6 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              height: isEdit.value ? context.screenHeight * 0.625 : context.screenHeight * 0.5,
               width: context.screenWidth,
               decoration: ShapeDecoration(
                 shape: BeveledRectangleBorder(
@@ -322,6 +386,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                     controller: passwordTEC,
                     obscureText: true,
                     readOnly: !isEdit.value,
+                    showPasswordGeneration: true,
                     isPassword: true,
                     iconOnClick: () {
                       if (useSymbols.value || useAlphabet.value || useNumbers.value) {
@@ -352,9 +417,8 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
             ),
             if (!isEdit.value)
               Container(
-                height: context.screenHeight * 0.35,
                 width: context.screenWidth,
-                margin: EdgeInsets.symmetric(horizontal: 10 * context.scaled),
+                margin: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.zero,
                   color: Theme.of(context).colorScheme.secondaryContainer,
@@ -362,6 +426,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
                   child: Column(
+                    spacing: 15,
                     mainAxisAlignment: .spaceAround,
                     children: [
                       Row(
@@ -396,16 +461,18 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                               fontSize: 24 * context.scaled,
                               color: Theme.of(context).colorScheme.primaryContainer,
                               shadows: [
-                                Shadow(
-                                  blurRadius: 10.0,
-                                  color: Theme.of(context).colorScheme.primaryContainer,
-                                  offset: Offset(0, 0),
-                                ),
-                                Shadow(
-                                  blurRadius: 10.0,
-                                  color: Theme.of(context).colorScheme.primaryContainer,
-                                  offset: Offset(0, 0),
-                                ),
+                                if (passwordStrength.value > 0)
+                                  Shadow(
+                                    blurRadius: 10.0,
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    offset: Offset(0, 0),
+                                  ),
+                                if (passwordStrength.value > 2)
+                                  Shadow(
+                                    blurRadius: 10.0,
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    offset: Offset(0, 0),
+                                  ),
                               ],
                             ),
                           ),
@@ -489,14 +556,14 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                               Text(
                                 "DATE CREATED",
                                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                  fontSize: 16 * context.scaled,
+                                  fontSize: 20 * context.scaled,
                                   color: Theme.of(context).colorScheme.outline,
                                 ),
                               ),
                               Text(
                                 DateFormat.yMd().format(copiedCredentials!.dateCreated!).toString(),
                                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                  fontSize: 12 * context.scaled,
+                                  fontSize: 16 * context.scaled,
                                   color: Colors.white,
                                 ),
                               ),
@@ -510,11 +577,8 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
               ),
             if (isEdit.value)
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                height: context.screenWidth > 400
-                    ? context.screenHeight * 0.34
-                    : context.screenHeight * 0.41,
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 width: context.screenWidth,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainerLow,
@@ -535,7 +599,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                       "PASSWORD GENERATION SETTINGS",
                       style: Theme.of(
                         context,
-                      ).textTheme.labelMedium?.copyWith(fontSize: 20 * context.scaled),
+                      ).textTheme.labelMedium?.copyWith(fontSize: 24 * context.scaled),
                     ),
                     Row(
                       mainAxisAlignment: .spaceBetween,
@@ -544,13 +608,13 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                           "PASSWORD LENGTH",
                           style: Theme.of(
                             context,
-                          ).textTheme.labelSmall?.copyWith(fontSize: 16 * context.scaled),
+                          ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
                         ),
                         Text(
                           sliderValue.value.toInt().toString(),
                           style: Theme.of(
                             context,
-                          ).textTheme.labelSmall?.copyWith(fontSize: 16 * context.scaled),
+                          ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
                         ),
                       ],
                     ),
@@ -574,13 +638,13 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                             "8",
                             style: Theme.of(
                               context,
-                            ).textTheme.labelSmall?.copyWith(fontSize: 16 * context.scaled),
+                            ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
                           ),
                           Text(
                             "40",
                             style: Theme.of(
                               context,
-                            ).textTheme.labelSmall?.copyWith(fontSize: 16 * context.scaled),
+                            ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
                           ),
                         ],
                       ),
@@ -603,7 +667,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                                   "AaBbCc",
                                   style: Theme.of(
                                     context,
-                                  ).textTheme.labelSmall?.copyWith(fontSize: 16 * context.scaled),
+                                  ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
                                 ),
                               ],
                             ),
@@ -619,7 +683,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                                   "0123",
                                   style: Theme.of(
                                     context,
-                                  ).textTheme.labelSmall?.copyWith(fontSize: 16 * context.scaled),
+                                  ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
                                 ),
                               ],
                             ),
@@ -635,7 +699,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                                   "!@#%",
                                   style: Theme.of(
                                     context,
-                                  ).textTheme.labelSmall?.copyWith(fontSize: 16 * context.scaled),
+                                  ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
                                 ),
                               ],
                             ),

@@ -21,13 +21,13 @@ class Utils {
   }
 
   static int determinePasswordStrength(String password) {
-    int strenthLvl = 0;
-    if(password.contains(RegExp(r'\d'))) strenthLvl += 1;
-    if(password.contains(RegExp(r'[!@#%^&*(),.?":{}|<>]'))) strenthLvl += 1;
-    if(password.contains(RegExp(r'[a-zA-Z]'))) strenthLvl += 1;
-    if(password.length > 25) strenthLvl += 1;
+    int strengthLvl = 0;
+    if(password.contains(RegExp(r'\d'))) strengthLvl += 1;
+    if(password.contains(RegExp(r'[!@#%^&*(),.?":{}|<>]'))) strengthLvl += 1;
+    if(password.contains(RegExp(r'[a-zA-Z]'))) strengthLvl += 1;
+    if(password.length > 25) strengthLvl += 1;
 
-    return strenthLvl;
+    return strengthLvl;
   }
 }
 
@@ -35,7 +35,8 @@ extension Sized on BuildContext {
   double get screenHeight => MediaQuery.sizeOf(this).height;
   double get screenWidth => MediaQuery.sizeOf(this).width;
   bool get isSmallScreen => screenWidth < 400;
-  bool get isMediumScreen => screenWidth > 400 && screenWidth < 600;
+  bool get isMediumScreen => screenWidth > 400 && screenWidth < 500;
+  bool get isLargeScreen => screenWidth > 500 && screenWidth < 600;
   bool get isTablet => screenWidth > 600;
-  double get scaled => isSmallScreen ? 0.75 : isMediumScreen ? 1 : 2;
+  double get scaled => isSmallScreen ? 0.675 : isMediumScreen ? 0.9 : isLargeScreen ? 1.25 : 1.75;
 }

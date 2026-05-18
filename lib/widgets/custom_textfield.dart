@@ -19,6 +19,10 @@ class CustomTextfield extends StatefulHookWidget {
     this.hintText,
     this.leadingIcon,
     this.obscureText = false,
+    this.showPasswordGeneration = false,
+    this.isNumbersOnly = false,
+    this.maxLength,
+    this.centerTextInput,
   });
 
   final String label;
@@ -33,6 +37,10 @@ class CustomTextfield extends StatefulHookWidget {
   final String? hintText;
   final IconData? leadingIcon;
   final bool? obscureText;
+  final bool? showPasswordGeneration;
+  final bool? isNumbersOnly;
+  final int? maxLength;
+  final bool? centerTextInput;
 
   @override
   State<StatefulWidget> createState() => _CustomTextfieldState();
@@ -51,7 +59,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
   void didUpdateWidget(covariant CustomTextfield oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget != widget) {
-        state = widget;
+      state = widget;
     }
   }
 
@@ -86,15 +94,23 @@ class _CustomTextfieldState extends State<CustomTextfield> {
             ],
           ),
           TextFormField(
+            textAlign: widget.centerTextInput ?? false ? TextAlign.center : TextAlign.start,
             validator: (value) {
               if (widget.isRequired) {
                 if (value == null || value.isEmpty) return "";
               }
               return null;
             },
+            keyboardType: widget.isNumbersOnly ?? false ? TextInputType.number : null,
             cursorColor: Colors.white,
-            style: Theme.of(context).textTheme.bodyMedium,
+            maxLength: widget.maxLength,
+            style: widget.isNumbersOnly ?? false
+                ? Theme.of(context).textTheme.bodyLarge
+                : Theme.of(context).textTheme.bodyMedium,
             autocorrect: false,
+            inputFormatters: [
+              ?widget.isNumbersOnly ?? false ? FilteringTextInputFormatter.digitsOnly : null,
+            ],
             readOnly: widget.readOnly,
             enableInteractiveSelection: true,
             obscureText: obscureText.value,
@@ -167,14 +183,15 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                             size: 20 * context.scaled,
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.auto_fix_high_outlined,
-                            size: 28 * context.scaled,
-                            color: Theme.of(context).colorScheme.primary,
+                        if (widget.showPasswordGeneration!)
+                          IconButton(
+                            icon: Icon(
+                              Icons.auto_fix_high_outlined,
+                              size: 28 * context.scaled,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () => widget.iconOnClick!.call(),
                           ),
-                          onPressed: () => widget.iconOnClick!.call(),
-                        ),
                       ],
                     )
                   : null,

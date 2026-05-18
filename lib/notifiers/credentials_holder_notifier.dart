@@ -8,8 +8,18 @@ class CredentialsHolderNotifier extends AsyncNotifier<List<Map<String, Credentia
   @override
   Future<List<Map<String, Credentials>>> build() async => await getAllCredentials();
 
+  Future<Credentials> getCredentials(String key) async {
+    var credentials = await ref.read(storageProvider).getCredentials(key);
+    if(credentials == null) {
+      return Credentials();
+    } else {
+      return Credentials.fromJson(json.decode(credentials));
+    }
+  }
+
   Future<List<Map<String, Credentials>>> getAllCredentials() async {
     var jsonCredentials = await ref.read(storageProvider).getAllCredentials();
+    jsonCredentials.removeWhere((k,v) => k == "App_Lock");
     return jsonCredentials.entries
         .map((e) => {e.key: Credentials.fromJson(json.decode(e.value))})
         .toList();

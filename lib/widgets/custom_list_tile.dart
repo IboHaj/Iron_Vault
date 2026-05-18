@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iron_vault/models/credentials.dart';
 import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/views/detailed_credentials_view.dart';
+import 'package:iron_vault/widgets/custom_dialog.dart';
 import 'package:iron_vault/widgets/custom_snackbar.dart';
 
 class CustomListTile extends ConsumerWidget {
@@ -56,9 +57,9 @@ class CustomListTile extends ConsumerWidget {
                         children: [
                           Text(
                             credentials.title!.toUpperCase(),
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontSize: 28 * context.scaled
-                            ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleLarge?.copyWith(fontSize: 28 * context.scaled),
                           ),
                           Text(
                             credentials.username!,
@@ -75,8 +76,33 @@ class CustomListTile extends ConsumerWidget {
                 Expanded(
                   child: Row(
                     mainAxisSize: .max,
-                    mainAxisAlignment: .end,
+                    mainAxisAlignment: .spaceBetween,
                     children: [
+                      TextButton.icon(
+                        onPressed: () => CustomDialog.showCustomWarningDialog(
+                          context,
+                          content:
+                              "Are you sure you would like to delete these credentials?",
+                          negativeLabel: "CANCEL",
+                          positiveLabel: "DELETE",
+                          onTapNegative: () {},
+                          onTapPositive: () {},
+                          negativeIcon: Icons.cancel_outlined,
+                          positiveIcon: Icons.delete_forever_sharp,
+                        ),
+                        label: Text(
+                          "DELETE",
+                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.error,
+                            fontSize: 24 * context.scaled,
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.delete_forever_sharp,
+                          color: Theme.of(context).colorScheme.error,
+                          size: 28 * context.scaled,
+                        ),
+                      ),
                       TextButton.icon(
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: credentials.password!));
@@ -85,6 +111,9 @@ class CustomListTile extends ConsumerWidget {
                             SnackBarUse.info,
                             "PASSWORD COPIED SUCCESSFULLY",
                           );
+                          Future.delayed(Duration(seconds: 30), () {
+                            Clipboard.setData(ClipboardData(text: ""));
+                          });
                         },
                         label: Text(
                           "CPY_PWD",

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:iron_vault/utils/theme.dart';
-import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/views/new_credentials_view.dart';
 import 'package:iron_vault/views/password_generator_view.dart';
 import 'package:iron_vault/views/password_list_view.dart';
+import 'package:iron_vault/views/settings_view.dart';
 import 'package:iron_vault/widgets/custom_appbar.dart';
 import 'package:iron_vault/widgets/password_create_bottomsheet.dart';
-
-enum Filters { all, recent, favorites }
 
 class MainView extends HookConsumerWidget {
   const MainView({super.key});
@@ -18,52 +15,32 @@ class MainView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var currentDestination = useState(0);
 
-    // List<Credentials> recentList = [
-    //   if (ref.read(allCredentialsProvider).value != null &&
-    //       ref.read(allCredentialsProvider).value!.isNotEmpty)
-    //     ref
-    //         .watch(allCredentialsProvider)
-    //         .value!
-    //         .elementAt(ref.read(allCredentialsProvider).value!.length - 1)
-    //         .values
-    //         .first,
-    //   if (ref.read(allCredentialsProvider).value != null &&
-    //       ref.read(allCredentialsProvider).value!.length >= 2)
-    //     ref
-    //         .watch(allCredentialsProvider)
-    //         .value!
-    //         .elementAt(ref.read(allCredentialsProvider).value!.length - 2)
-    //         .values
-    //         .first,
-    //   if (ref.read(allCredentialsProvider).value != null &&
-    //       ref.read(allCredentialsProvider).value!.length >= 3)
-    //     ref
-    //         .watch(allCredentialsProvider)
-    //         .value!
-    //         .elementAt(ref.read(allCredentialsProvider).value!.length - 3)
-    //         .values
-    //         .first,
-    // ];
-    //
-    // List<Map<String, Credentials>> favorites = [
-    //   if (ref.read(allCredentialsProvider).value != null)
-    //     ...ref.watch(allCredentialsProvider).value!.where((e) => e.values.first.favorited == true),
-    // ];
-
     return SafeArea(
-      child: MaterialApp(
-        theme: MaterialTheme().dark(),
-        home: Scaffold(
+      child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: CustomAppbar(
+            trailing: [
+              Builder(
+                builder: (context) {
+                  return IconButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsView()),
+                    ),
+                    icon: Icon(
+                      Icons.settings,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 32,
+                    ),
+                  );
+                },
+              ),
+            ],
             title: currentDestination.value == 0
                 ? "IRON VAULT"
                 : currentDestination.value == 1
                 ? "PASSWORD GENERATOR"
                 : "SETTINGS",
-            appbarHeight: context.isMediumScreen || context.isTablet
-                ? context.screenHeight * 0.065
-                : context.screenHeight * 0.08,
           ),
           body: [PasswordListView(), PasswordGeneratorView()][currentDestination.value],
           floatingActionButton: currentDestination.value == 0
@@ -88,9 +65,7 @@ class MainView extends HookConsumerWidget {
           bottomNavigationBar: HookBuilder(
             builder: (context) {
               return NavigationBar(
-                height: context.isSmallScreen
-                    ? context.screenHeight * 0.105
-                    : context.screenHeight * 0.08,
+                height: 80,
                 selectedIndex: currentDestination.value,
                 onDestinationSelected: (value) => currentDestination.value = value,
                 indicatorColor: Theme.of(context).colorScheme.primaryContainer,
@@ -110,23 +85,14 @@ class MainView extends HookConsumerWidget {
                       Icons.shield,
                       color: Theme.of(context).colorScheme.onSecondaryFixed,
                     ),
-                    label: "PASS. GEN",
+                    label: "PASS. GENERATOR",
                     icon: Icon(Icons.shield),
-                  ),
-                  NavigationDestination(
-                    selectedIcon: Icon(
-                      Icons.settings,
-                      color: Theme.of(context).colorScheme.onSecondaryFixed,
-                    ),
-                    icon: Icon(Icons.settings),
-                    label: "SETTINGS",
                   ),
                 ],
               );
             },
           ),
         ),
-      ),
     );
   }
 }
