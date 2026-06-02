@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:iron_vault/l10n/app_localizations.dart';
 import 'package:iron_vault/models/credentials.dart';
 import 'package:iron_vault/notifiers/credentials_holder_notifier.dart';
 import 'package:iron_vault/utils/utils.dart';
@@ -36,7 +37,7 @@ class NewCredentialsView extends HookConsumerWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
-            title: "NEW ENTRY",
+            title: AppLocalizations.of(context)!.new_entry,
           ),
           body:  ListView(
               children: [
@@ -55,14 +56,14 @@ class NewCredentialsView extends HookConsumerWidget {
                           spacing: context.screenWidth > 600 ? 8 : 4,
                           children: [
                             Text(
-                              "FORGE A NEW ENTRY",
+                              AppLocalizations.of(context)!.forge_new_entry,
                               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 28 * context.scaled,
                               ),
                             ),
                             Text(
-                              "Initialize a new set of Credentials.",
+                              AppLocalizations.of(context)!.new_entry_string,
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.primary,
@@ -109,19 +110,19 @@ class NewCredentialsView extends HookConsumerWidget {
                             mainAxisAlignment: .start,
                             children: [
                               CustomTextfield(
-                                label: "TITLE",
+                                label: AppLocalizations.of(context)!.title,
                                 controller: serviceTEC,
                                 leadingIcon: Icons.public,
                                 hintText: "e.g Gmail, GitHub, Twitter",
                               ),
                               CustomTextfield(
-                                label: "USERNAME",
+                                label: AppLocalizations.of(context)!.username,
                                 controller: identityTEC,
                                 leadingIcon: Icons.badge,
                                 hintText: "username@domain.com",
                               ),
                               CustomTextfield(
-                                label: "PASSWORD",
+                                label: AppLocalizations.of(context)!.password,
                                 controller: passwordTEC,
                                 leadingIcon: Icons.key,
                                 obscureText: true,
@@ -130,7 +131,7 @@ class NewCredentialsView extends HookConsumerWidget {
                               CustomButton(
                                 icon: Icons.refresh,
                                 iconColor: Theme.of(context).colorScheme.primaryContainer,
-                                label: "GENERATE",
+                                label: AppLocalizations.of(context)!.generate,
                                 labelColor: Theme.of(context).colorScheme.primaryContainer,
                                 onTap: () {
                                   if (useSymbols.value || useNumbers.value || useAlphabet.value) {
@@ -171,7 +172,7 @@ class NewCredentialsView extends HookConsumerWidget {
                                   crossAxisAlignment: .center,
                                   children: [
                                     Text(
-                                      "PASSWORD GENERATION SETTINGS",
+                                      AppLocalizations.of(context)!.password_generation_settings,
                                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                                         fontSize: 20 * context.scaled,
                                       ),
@@ -180,7 +181,7 @@ class NewCredentialsView extends HookConsumerWidget {
                                       mainAxisAlignment: .spaceBetween,
                                       children: [
                                         Text(
-                                          "PASSWORD LENGTH",
+                                          AppLocalizations.of(context)!.password_length,
                                           style: Theme.of(context).textTheme.labelSmall?.copyWith(
                                             fontSize: 16 * context.scaled,
                                           ),
@@ -239,7 +240,7 @@ class NewCredentialsView extends HookConsumerWidget {
                                                   },
                                                 ),
                                                 Text(
-                                                  "AaBbCc",
+                                                  AppLocalizations.of(context)!.aabbcc,
                                                   style: Theme.of(context).textTheme.labelSmall
                                                       ?.copyWith(fontSize: 16 * context.scaled),
                                                 ),
@@ -254,7 +255,7 @@ class NewCredentialsView extends HookConsumerWidget {
                                                   },
                                                 ),
                                                 Text(
-                                                  "0123",
+                                                  AppLocalizations.of(context)!.numbers_string,
                                                   style: Theme.of(context).textTheme.labelSmall
                                                       ?.copyWith(fontSize: 16 * context.scaled),
                                                 ),
@@ -269,7 +270,7 @@ class NewCredentialsView extends HookConsumerWidget {
                                                   },
                                                 ),
                                                 Text(
-                                                  "!@#%",
+                                                  AppLocalizations.of(context)!.symbols_string,
                                                   style: Theme.of(context).textTheme.labelSmall
                                                       ?.copyWith(fontSize: 16 * context.scaled),
                                                 ),
@@ -287,14 +288,14 @@ class NewCredentialsView extends HookConsumerWidget {
                                 endIndent: context.screenWidth * 0.05,
                               ),
                               CustomTextfield(
-                                label: "EXTRA NOTES",
+                                label: AppLocalizations.of(context)!.extra_notes,
                                 controller: noteTEC,
                                 isRequired: false,
                                 maxLines: 3,
-                                hintText: "Notes go here...",
+                                hintText: AppLocalizations.of(context)!.notes_go_here,
                               ),
                               CustomButton(
-                                label: "SECURE ENTRY",
+                                label: AppLocalizations.of(context)!.secure_entry,
                                 iconColor: Theme.of(context).colorScheme.shadow,
                                 icon: Icons.lock,
                                 labelColor: Theme.of(context).colorScheme.shadow,

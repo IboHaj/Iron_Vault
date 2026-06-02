@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:iron_vault/l10n/app_localizations.dart';
 import 'package:iron_vault/models/credentials.dart';
 import 'package:iron_vault/notifiers/credentials_holder_notifier.dart';
 import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/widgets/custom_list_tile.dart';
-
-
 
 class PasswordListView extends HookConsumerWidget {
   const PasswordListView({super.key});
@@ -36,14 +36,14 @@ class PasswordListView extends HookConsumerWidget {
                   spacing: constraints.maxWidth > 600 ? 8 : 4,
                   children: [
                     Text(
-                      "CREDENTIALS SECURED:  ${ref.read(allCredentialsProvider).value?.length}",
+                      "${AppLocalizations.of(context)!.credentials_secured} ${NumberFormat.decimalPattern(Localizations.localeOf(context).languageCode).format(ref.read(allCredentialsProvider).value?.length)}",
                       style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 28 * context.scaled,
                       ),
                     ),
                     Text(
-                      "Credentials are encrypted and stored locally on your device.",
+                      AppLocalizations.of(context)!.main_view_string,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
@@ -75,7 +75,7 @@ class PasswordListView extends HookConsumerWidget {
                         size: constraints.maxWidth > 600 ? 40 : 32,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      hintText: "SEARCH THE VAULT",
+                      hintText: AppLocalizations.of(context)!.search_the_vault,
                       hintStyle: WidgetStatePropertyAll(
                         constraints.maxWidth > 600
                             ? Theme.of(context).textTheme.labelLarge?.copyWith(

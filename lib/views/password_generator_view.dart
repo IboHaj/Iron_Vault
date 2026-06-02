@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:iron_vault/l10n/app_localizations.dart';
 import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/widgets/custom_snackbar.dart';
 import 'package:iron_vault/widgets/custom_tile_switch.dart';
@@ -51,7 +52,7 @@ class PasswordGeneratorView extends HookConsumerWidget {
                   mainAxisAlignment: .spaceAround,
                   children: [
                     Text(
-                      "Generated Password",
+                      AppLocalizations.of(context)!.generated_password,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontSize: 24 * context.scaled,
@@ -61,7 +62,7 @@ class PasswordGeneratorView extends HookConsumerWidget {
                       child: Text(
                         textAlign: TextAlign.center,
                         passwordValue.value.isEmpty
-                            ? 'Click Generate To Create A New Password'
+                            ? AppLocalizations.of(context)!.generate_password
                             : passwordValue.value,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: Theme.of(context).colorScheme.surface,
@@ -80,7 +81,7 @@ class PasswordGeneratorView extends HookConsumerWidget {
                             CustomSnackbar.show(context, SnackBarUse.info, "Password copied!");
                           },
                           label: Text(
-                            "COPY",
+                            AppLocalizations.of(context)!.copy,
                             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                               fontSize: 24 * context.scaled,
                               color: Theme.of(context).colorScheme.primaryContainer,
@@ -114,7 +115,7 @@ class PasswordGeneratorView extends HookConsumerWidget {
                             }
                           },
                           label: Text(
-                            "GENERATE",
+                            AppLocalizations.of(context)!.generate,
                             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                               fontSize: 24 * context.scaled,
                               color: Theme.of(context).colorScheme.primaryContainer,
@@ -155,7 +156,7 @@ class PasswordGeneratorView extends HookConsumerWidget {
                                   mainAxisAlignment: .spaceBetween,
                                   children: [
                                     Text(
-                                      "PASSWORD COMPLEXITY",
+                                      AppLocalizations.of(context)!.password_complexity,
                                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                         fontSize: 20 * context.scaled,
                                         fontWeight: FontWeight.bold,
@@ -163,14 +164,14 @@ class PasswordGeneratorView extends HookConsumerWidget {
                                     ),
                                     Text(
                                       passwordStrength.value == 0
-                                          ? "POOR"
+                                          ? AppLocalizations.of(context)!.poor
                                           : passwordStrength.value == 1
-                                          ? "OK"
+                                          ? AppLocalizations.of(context)!.ok
                                           : passwordStrength.value == 2
-                                          ? "FINE"
+                                          ? AppLocalizations.of(context)!.fine
                                           : passwordStrength.value == 3
-                                          ? "GREAT"
-                                          : "EXCELLENT",
+                                          ? AppLocalizations.of(context)!.great
+                                          : AppLocalizations.of(context)!.excellent,
                                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                         color: Theme.of(context).colorScheme.primaryContainer,
                                         fontSize: 20 * context.scaled,
@@ -268,7 +269,7 @@ class PasswordGeneratorView extends HookConsumerWidget {
                                 mainAxisAlignment: .spaceBetween,
                                 children: [
                                   Text(
-                                    "PASSWORD LENGTH",
+                                    AppLocalizations.of(context)!.password_length,
                                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                       fontSize: 20 * context.scaled,
                                       fontWeight: FontWeight.bold,
@@ -309,24 +310,24 @@ class PasswordGeneratorView extends HookConsumerWidget {
                           onChanged: (value) {
                             useAlphabet.value = value;
                           },
-                          title: "ALPHABET",
-                          subtitle: "AaBbCc",
+                          title: AppLocalizations.of(context)!.alphabet,
+                          subtitle: AppLocalizations.of(context)!.aabbcc,
                         ),
                         CustomTileSwitch(
                           width: constraints.maxWidth,
                           onChanged: (value) {
                             useNumbers.value = value;
                           },
-                          title: "NUMBERS",
-                          subtitle: "01234",
+                          title: AppLocalizations.of(context)!.numbers,
+                          subtitle: AppLocalizations.of(context)!.numbers_string,
                         ),
                         CustomTileSwitch(
                           width: constraints.maxWidth,
                           onChanged: (value) {
                             useSymbols.value = value;
                           },
-                          title: "SYMBOLS",
-                          subtitle: "!@#\$%",
+                          title: AppLocalizations.of(context)!.symbols,
+                          subtitle: AppLocalizations.of(context)!.symbols_string,
                         ),
                       ],
                     );

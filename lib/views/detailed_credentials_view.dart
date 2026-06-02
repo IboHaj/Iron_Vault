@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:iron_vault/l10n/app_localizations.dart';
 import 'package:iron_vault/models/credentials.dart';
 import 'package:iron_vault/notifiers/credentials_holder_notifier.dart';
 import 'package:iron_vault/utils/utils.dart';
@@ -138,7 +139,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                   ),
                 ),
         ],
-        title: "ENTRY DETAILS",
+        title: AppLocalizations.of(context)!.entry_details,
         titleStyle: Theme.of(
           context,
         ).textTheme.headlineMedium?.copyWith(color: Theme.of(context).colorScheme.primary),
@@ -321,7 +322,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12 * context.scaled),
                           child: Text(
-                            "CURRENT ENTRY",
+                            AppLocalizations.of(context)!.current_entry,
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               color: Theme.of(context).colorScheme.outline,
                               fontSize: 20 * context.scaled,
@@ -374,15 +375,18 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                 children: [
                   Visibility(
                     visible: isEdit.value,
-                    child: CustomTextfield(label: "TITLE", controller: titleTEC),
+                    child: CustomTextfield(
+                      label: AppLocalizations.of(context)!.title,
+                      controller: titleTEC,
+                    ),
                   ),
                   CustomTextfield(
-                    label: "USERNAME",
+                    label: AppLocalizations.of(context)!.username,
                     controller: usernameTEC,
                     readOnly: !isEdit.value,
                   ),
                   CustomTextfield(
-                    label: "PASSWORD",
+                    label: AppLocalizations.of(context)!.password,
                     controller: passwordTEC,
                     obscureText: true,
                     readOnly: !isEdit.value,
@@ -406,7 +410,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                     },
                   ),
                   CustomTextfield(
-                    label: "EXTRA NOTES",
+                    label: AppLocalizations.of(context)!.extra_notes,
                     controller: noteTEC,
                     maxLines: 5,
                     readOnly: !isEdit.value,
@@ -433,7 +437,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                         mainAxisAlignment: .spaceBetween,
                         children: [
                           Text(
-                            "SECURITY HEALTH",
+                            AppLocalizations.of(context)!.security_health,
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               fontSize: 24 * context.scaled,
                               fontWeight: FontWeight.bold,
@@ -451,12 +455,12 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                         children: [
                           Text(
                             passwordStrength.value <= 1
-                                ? "POOR"
+                                ? AppLocalizations.of(context)!.poor
                                 : passwordStrength.value == 2
-                                ? "OK"
+                                ? AppLocalizations.of(context)!.ok
                                 : passwordStrength.value == 3
-                                ? "GREAT"
-                                : "EXCELLENT",
+                                ? AppLocalizations.of(context)!.great
+                                : AppLocalizations.of(context)!.excellent,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               fontSize: 24 * context.scaled,
                               color: Theme.of(context).colorScheme.primaryContainer,
@@ -554,7 +558,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                             crossAxisAlignment: .start,
                             children: [
                               Text(
-                                "DATE CREATED",
+                                AppLocalizations.of(context)!.date_created,
                                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                                   fontSize: 20 * context.scaled,
                                   color: Theme.of(context).colorScheme.outline,
@@ -596,7 +600,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                   crossAxisAlignment: .center,
                   children: [
                     Text(
-                      "PASSWORD GENERATION SETTINGS",
+                      AppLocalizations.of(context)!.password_generation_settings,
                       style: Theme.of(
                         context,
                       ).textTheme.labelMedium?.copyWith(fontSize: 24 * context.scaled),
@@ -605,7 +609,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                       mainAxisAlignment: .spaceBetween,
                       children: [
                         Text(
-                          "PASSWORD LENGTH",
+                          AppLocalizations.of(context)!.password_length,
                           style: Theme.of(
                             context,
                           ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
@@ -664,7 +668,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                                   },
                                 ),
                                 Text(
-                                  "AaBbCc",
+                                  AppLocalizations.of(context)!.aabbcc,
                                   style: Theme.of(
                                     context,
                                   ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
@@ -680,7 +684,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                                   },
                                 ),
                                 Text(
-                                  "0123",
+                                  AppLocalizations.of(context)!.numbers_string,
                                   style: Theme.of(
                                     context,
                                   ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),
@@ -696,7 +700,7 @@ class _DetailedCredentialsViewState extends ConsumerState<DetailedCredentialsVie
                                   },
                                 ),
                                 Text(
-                                  "!@#%",
+                                  AppLocalizations.of(context)!.symbols_string,
                                   style: Theme.of(
                                     context,
                                   ).textTheme.labelSmall?.copyWith(fontSize: 20 * context.scaled),

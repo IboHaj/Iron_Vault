@@ -11,6 +11,7 @@ import 'package:iron_vault/widgets/custom_dialog.dart';
 import 'package:iron_vault/widgets/custom_snackbar.dart';
 import 'package:iron_vault/widgets/custom_tile_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:iron_vault/l10n/app_localizations.dart';
 
 class SettingsView extends HookConsumerWidget {
   const SettingsView({super.key});
@@ -25,7 +26,7 @@ class SettingsView extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppbar(
-          title: "SETTINGS",
+          title: AppLocalizations.of(context)!.settings,
           bgColor: Theme.of(context).colorScheme.shadow,
           leadingIcon: IconButton(
             onPressed: () => Navigator.pop(context),
@@ -57,7 +58,7 @@ class SettingsView extends HookConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  "SECURITY PROTOCOLS",
+                  AppLocalizations.of(context)!.security_protocols,
                   style: Theme.of(
                     context,
                   ).textTheme.headlineMedium?.copyWith(fontSize: 24 * context.scaled),
@@ -76,87 +77,90 @@ class SettingsView extends HookConsumerWidget {
                   mainAxisAlignment: .start,
                   mainAxisSize: .max,
                   children: [
-                    ListTile(
-                      title: Text(
-                        "PIN LOCK",
-                        style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20 * context.scaled,
+                    Material(
+                      child: ListTile(
+                        title: Text(
+                          AppLocalizations.of(context)!.pin_lock,
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20 * context.scaled,
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        pinStatus.value
-                            ? "A pin is already setup, click here to change it, long press to remove it"
-                            : "Setup a 6 Digit PIN as an additional layer of security",
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          fontSize: 14 * context.scaled,
-                          color: Theme.of(context).colorScheme.onSecondaryContainer,
+                        subtitle: Text(
+                          pinStatus.value
+                              ? AppLocalizations.of(context)!.pin_unlock_string
+                              : AppLocalizations.of(context)!.pin_lock_string,
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontSize: 14 * context.scaled,
+                            color: Theme.of(context).colorScheme.onSecondaryContainer,
+                          ),
                         ),
-                      ),
-                      onLongPress: () {
-                        CustomDialog.showCustomWarningDialog(
-                          context,
-                          positiveLabel: "Cancel",
-                          negativeLabel: "Remove",
-                          content: "Are you sure you'd like to remove the current PIN?",
-                          onTapPositive: () => Navigator.pop(context),
-                          onTapNegative: () async {
+                        onLongPress: () {
+                          CustomDialog.showCustomWarningDialog(
+                            context,
+                            positiveLabel: "Cancel",
+                            negativeLabel: "Remove",
+                            content: "Are you sure you'd like to remove the current PIN?",
+                            onTapPositive: () => Navigator.pop(context),
+                            onTapNegative: () async {
+                              var creds = await ref
+                                  .read(allCredentialsProvider.notifier)
+                                  .getCredentials("App_Lock");
+
+                              await ref
+                                  .read(allCredentialsProvider.notifier)
+                                  .deleteCredentials(creds);
+                              SharedPrefs.sharedPrefs?.setBool("App_Lock", false);
+                              pinStatus.value = false;
+                              if (context.mounted) Navigator.pop(context);
+                            },
+                            positiveIcon: Icons.cancel_sharp,
+                            negativeIcon: Icons.check_circle_outline,
+                          );
+                        },
+                        onTap: () async {
+                          TextEditingController controller = TextEditingController();
+                          if (pinStatus.value) {
                             var creds = await ref
                                 .read(allCredentialsProvider.notifier)
                                 .getCredentials("App_Lock");
-
-                            await ref
-                                .read(allCredentialsProvider.notifier)
-                                .deleteCredentials(creds);
-                            SharedPrefs.sharedPrefs?.setBool("App_Lock", false);
-                            pinStatus.value = false;
-                            if (context.mounted) Navigator.pop(context);
-                          },
-                          positiveIcon: Icons.cancel_sharp,
-                          negativeIcon: Icons.check_circle_outline,
-                        );
-                      },
-                      onTap: () async {
-                        TextEditingController controller = TextEditingController();
-                        if (pinStatus.value) {
-                          var creds = await ref
-                              .read(allCredentialsProvider.notifier)
-                              .getCredentials("App_Lock");
-                          if (context.mounted) {
-                            CustomDialog.showPasswordDialog(context, controller, () {
-                              if (controller.text == creds.password) {
-                                Navigator.pop(context);
-                                controller.clear();
-                                CustomDialog.showPasswordDialog(context, controller, () async {
-                                  ref
-                                      .read(allCredentialsProvider.notifier)
-                                      .addCredentials(
-                                        Credentials(title: "App_Lock", password: controller.text),
-                                      );
-                                  var prefs = await SharedPreferences.getInstance();
-                                  prefs.setBool("App_Lock", true);
-                                  pinStatus.value = true;
-                                  if (context.mounted) Navigator.pop(context);
-                                });
-                              } else {
-                                CustomSnackbar.show(context, SnackBarUse.error, "Incorrect PIN");
-                              }
-                            }, changingPassword: true);
+                            if (context.mounted) {
+                              CustomDialog.showPasswordDialog(context, controller, () {
+                                if (controller.text == creds.password) {
+                                  Navigator.pop(context);
+                                  controller.clear();
+                                  CustomDialog.showPasswordDialog(context, controller, () async {
+                                    ref
+                                        .read(allCredentialsProvider.notifier)
+                                        .addCredentials(
+                                          Credentials(title: "App_Lock", password: controller.text),
+                                        );
+                                    var prefs = await SharedPreferences.getInstance();
+                                    prefs.setBool("App_Lock", true);
+                                    pinStatus.value = true;
+                                    if (context.mounted) Navigator.pop(context);
+                                  });
+                                } else {
+                                  CustomSnackbar.show(context, SnackBarUse.error, "Incorrect PIN");
+                                }
+                              }, changingPassword: true);
+                            }
+                          } else {
+                            CustomDialog.showPasswordDialog(context, controller, () async {
+                              ref
+                                  .read(allCredentialsProvider.notifier)
+                                  .addCredentials(
+                                    Credentials(title: "App_Lock", password: controller.text),
+                                  );
+                              var prefs = await SharedPreferences.getInstance();
+                              prefs.setBool("App_Lock", true);
+                              pinStatus.value = true;
+                              if (context.mounted) Navigator.pop(context);
+                            });
                           }
-                        } else {
-                          CustomDialog.showPasswordDialog(context, controller, () async {
-                            ref
-                                .read(allCredentialsProvider.notifier)
-                                .addCredentials(
-                                  Credentials(title: "App_Lock", password: controller.text),
-                                );
-                            var prefs = await SharedPreferences.getInstance();
-                            prefs.setBool("App_Lock", true);
-                            pinStatus.value = true;
-                            if (context.mounted) Navigator.pop(context);
-                          });
-                        }
-                      },
+                        },
+                        tileColor: Theme.of(context).colorScheme.secondaryContainer,
+                      ),
                     ),
                     CustomTileSwitch(
                       startingState: clearClipboard.value,
@@ -165,8 +169,8 @@ class SettingsView extends HookConsumerWidget {
                         var prefs = await SharedPreferences.getInstance();
                         prefs.setBool("Clear_Clipboard", true);
                       },
-                      title: "CLIPBOARD CLEARING",
-                      subtitle: "Clears clipboard after 30 seconds of copying credentials",
+                      title: AppLocalizations.of(context)!.clipboard_clearing,
+                      subtitle: AppLocalizations.of(context)!.clipboard_clearing_string,
                     ),
                   ],
                 ),
@@ -186,7 +190,7 @@ class SettingsView extends HookConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  "VAULT PREFERENCES",
+                  AppLocalizations.of(context)!.vault_preferences,
                   style: Theme.of(
                     context,
                   ).textTheme.headlineMedium?.copyWith(fontSize: 24 * context.scaled),
@@ -208,8 +212,8 @@ class SettingsView extends HookConsumerWidget {
                       startingState: useDarkTheme.value,
                       width: context.screenWidth,
                       onChanged: (value) {},
-                      title: "Dark Mode",
-                      subtitle: "Ironclad Obsidian Theme",
+                      title: AppLocalizations.of(context)!.dark_mode,
+                      subtitle: AppLocalizations.of(context)!.dark_mode_string,
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 11, vertical: 5),
@@ -220,7 +224,7 @@ class SettingsView extends HookConsumerWidget {
                         spacing: 10,
                         children: [
                           Text(
-                            "System Language",
+                            AppLocalizations.of(context)!.system_language,
                             style: Theme.of(context).textTheme.displaySmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 20 * context.scaled,
@@ -275,7 +279,7 @@ class SettingsView extends HookConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  "DATA OPERATIONS",
+                  AppLocalizations.of(context)!.data_operations,
                   style: Theme.of(
                     context,
                   ).textTheme.headlineMedium?.copyWith(fontSize: 24 * context.scaled),
@@ -296,7 +300,7 @@ class SettingsView extends HookConsumerWidget {
                     CustomButton(
                       icon: Icons.upload_file,
                       iconColor: Theme.of(context).colorScheme.primaryContainer,
-                      label: "Export Credentials",
+                      label: AppLocalizations.of(context)!.export_credentials,
                       labelColor: Colors.white,
                       onTap: () {},
                       height: context.screenHeight * 0.075,
@@ -306,7 +310,7 @@ class SettingsView extends HookConsumerWidget {
                     CustomButton(
                       icon: Icons.delete_forever_sharp,
                       iconColor: Theme.of(context).colorScheme.onErrorContainer,
-                      label: "Wipe the Vault",
+                      label: AppLocalizations.of(context)!.wipe_the_vault,
                       labelColor: Theme.of(context).colorScheme.onErrorContainer,
                       onTap: () => CustomDialog.showCustomWarningDialog(
                         context,

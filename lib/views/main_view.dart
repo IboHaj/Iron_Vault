@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:iron_vault/l10n/app_localizations.dart';
 import 'package:iron_vault/views/new_credentials_view.dart';
 import 'package:iron_vault/views/password_generator_view.dart';
 import 'package:iron_vault/views/password_list_view.dart';
@@ -37,10 +38,10 @@ class MainView extends HookConsumerWidget {
               ),
             ],
             title: currentDestination.value == 0
-                ? "IRON VAULT"
+                ? AppLocalizations.of(context)!.iron_vault
                 : currentDestination.value == 1
-                ? "PASSWORD GENERATOR"
-                : "SETTINGS",
+                ? AppLocalizations.of(context)!.password_generator
+                : AppLocalizations.of(context)!.settings
           ),
           body: [PasswordListView(), PasswordGeneratorView()][currentDestination.value],
           floatingActionButton: currentDestination.value == 0
@@ -78,14 +79,14 @@ class MainView extends HookConsumerWidget {
                       Icons.password,
                       color: Theme.of(context).colorScheme.onSecondaryFixed,
                     ),
-                    label: "VAULT",
+                    label: AppLocalizations.of(context)!.vault,
                   ),
                   NavigationDestination(
                     selectedIcon: Icon(
                       Icons.shield,
                       color: Theme.of(context).colorScheme.onSecondaryFixed,
                     ),
-                    label: "PASS. GENERATOR",
+                    label: AppLocalizations.of(context)!.pass_generator,
                     icon: Icon(Icons.shield),
                   ),
                 ],
