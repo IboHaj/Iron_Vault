@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:iron_vault/l10n/app_localizations.dart';
 import 'package:iron_vault/notifiers/credentials_holder_notifier.dart';
 import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/views/main_view.dart';
@@ -65,8 +66,14 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                       color: Theme.of(context).colorScheme.primaryContainer,
                     ),
                   ),
-                  Text("The IRON VAULT", style: Theme.of(context).textTheme.headlineMedium),
-                  Text("LOCKED DOWN", style: Theme.of(context).textTheme.displaySmall),
+                  Text(
+                    AppLocalizations.of(context)!.the_iron_vault,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.locked_down,
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 20),
                     child: Row(
@@ -228,7 +235,7 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                             ),
                             child: Text(
                               NumberFormat.decimalPattern(
-                                Localizations.localeOf(context).languageCode,
+                                AppLocalizations.of(context)!.localeName,
                               ).format(1),
                               style: Theme.of(context).textTheme.headlineLarge,
                             ),
@@ -245,7 +252,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("2", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(2),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),
@@ -259,7 +271,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("3", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(3),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),
@@ -281,7 +298,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("4", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(4),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),
@@ -295,7 +317,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("5", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(5),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),
@@ -309,7 +336,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("6", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(6),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),
@@ -331,7 +363,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("7", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(7),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),
@@ -345,7 +382,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("8", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(8),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),
@@ -359,7 +401,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("9", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(9),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),
@@ -402,7 +449,12 @@ class _LockScreenViewState extends ConsumerState<LockscreenView> {
                               borderRadius: BorderRadius.circular(3),
                               color: Theme.of(context).colorScheme.surfaceContainer,
                             ),
-                            child: Text("0", style: Theme.of(context).textTheme.headlineLarge),
+                            child: Text(
+                              NumberFormat.decimalPattern(
+                                AppLocalizations.of(context)!.localeName,
+                              ).format(0),
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
                       ),

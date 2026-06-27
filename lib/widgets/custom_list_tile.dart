@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iron_vault/l10n/app_localizations.dart';
 import 'package:iron_vault/models/credentials.dart';
+import 'package:iron_vault/notifiers/credentials_holder_notifier.dart';
 import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/views/detailed_credentials_view.dart';
 import 'package:iron_vault/widgets/custom_dialog.dart';
@@ -81,17 +83,21 @@ class CustomListTile extends ConsumerWidget {
                       TextButton.icon(
                         onPressed: () => CustomDialog.showCustomWarningDialog(
                           context,
-                          content:
-                              "Are you sure you would like to delete these credentials?",
+                          content: "Are you sure you would like to delete these credentials?",
                           negativeLabel: "CANCEL",
                           positiveLabel: "DELETE",
-                          onTapNegative: () {},
-                          onTapPositive: () {},
+                          onTapNegative: () => Navigator.of(context).pop(),
+                          onTapPositive: () async {
+                            await ref
+                                .read(allCredentialsProvider.notifier)
+                                .deleteCredentials(credentials);
+                            if(context.mounted) Navigator.pop(context);
+                          },
                           negativeIcon: Icons.cancel_outlined,
                           positiveIcon: Icons.delete_forever_sharp,
                         ),
                         label: Text(
-                          "DELETE",
+                          AppLocalizations.of(context)!.delete,
                           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                             color: Theme.of(context).colorScheme.error,
                             fontSize: 24 * context.scaled,
@@ -116,7 +122,7 @@ class CustomListTile extends ConsumerWidget {
                           });
                         },
                         label: Text(
-                          "CPY_PWD",
+                          AppLocalizations.of(context)!.copy_password,
                           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                             color: Theme.of(context).colorScheme.primaryContainer,
                             fontSize: 24 * context.scaled,

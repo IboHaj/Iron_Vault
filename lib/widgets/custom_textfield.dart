@@ -4,6 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/widgets/custom_snackbar.dart';
 
+import '../l10n/app_localizations.dart';
+
 class CustomTextfield extends StatefulHookWidget {
   const CustomTextfield({
     super.key,
@@ -85,7 +87,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
               ),
               if (widget.isRequired)
                 Text(
-                  "REQ*",
+                  AppLocalizations.of(context)!.required,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     fontSize: 14 * context.scaled,

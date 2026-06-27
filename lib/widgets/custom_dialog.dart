@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iron_vault/utils/utils.dart';
 import 'package:iron_vault/widgets/custom_button.dart';
+import 'package:iron_vault/widgets/custom_snackbar.dart';
 import 'package:iron_vault/widgets/custom_textfield.dart';
 
 class CustomDialog {
@@ -105,6 +106,55 @@ class CustomDialog {
                 color: Theme.of(context).colorScheme.surfaceContainerLow,
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Future<void> showExportInfoDialog(BuildContext context, Function onTapPositive) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: Border(
+          left: BorderSide(color: Theme.of(context).colorScheme.tertiaryContainer, width: 5),
+        ),
+        title: Text("INFO", style: Theme.of(context).textTheme.headlineLarge),
+        content: Text(
+          "This action exports all of your currently stored credentials into JSON file and saves it in a directory on your device, proceed?",
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        actionsAlignment: .spaceBetween,
+        actions: [
+          CustomButton(
+            label: "Continue",
+            labelColor: Theme.of(context).colorScheme.primary,
+            onTap: () async {
+              Navigator.of(context).pop();
+              await onTapPositive.call();
+              if (context.mounted) {
+                CustomSnackbar.show(
+                  context,
+                  SnackBarUse.info,
+                  "Credentials exported to your device successfully!",
+                );
+              }
+            },
+            height: context.screenHeight * 0.06,
+            width: context.screenWidth * 0.8,
+            color: Theme.of(context).colorScheme.surfaceContainerLow,
+            iconColor: Theme.of(context).colorScheme.primary,
+            icon: Icons.check_circle_outline,
+          ),
+          CustomButton(
+            label: "Cancel",
+            labelColor: Theme.of(context).colorScheme.surfaceContainerLow,
+            onTap: () => Navigator.of(context).pop(),
+            height: context.screenHeight * 0.06,
+            width: context.screenWidth * 0.8,
+            color: Theme.of(context).colorScheme.errorContainer,
+            icon: Icons.cancel_sharp,
+            iconColor: Theme.of(context).colorScheme.surfaceContainerLow,
           ),
         ],
       ),

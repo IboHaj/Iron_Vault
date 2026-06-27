@@ -9,6 +9,12 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get the_iron_vault => 'The IRON VAULT';
+
+  @override
+  String get locked_down => 'LOCKED DOWN';
+
+  @override
   String get iron_vault => 'IRON VAULT';
 
   @override
@@ -20,6 +26,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search_the_vault => 'SEARCH THE VAULT';
+
+  @override
+  String get copy_password => 'CPY_PWD';
+
+  @override
+  String get delete => 'DELETE';
 
   @override
   String get vault => 'VAULT';

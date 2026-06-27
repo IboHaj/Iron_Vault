@@ -36,7 +36,7 @@ class PasswordListView extends HookConsumerWidget {
                   spacing: constraints.maxWidth > 600 ? 8 : 4,
                   children: [
                     Text(
-                      "${AppLocalizations.of(context)!.credentials_secured} ${NumberFormat.decimalPattern(Localizations.localeOf(context).languageCode).format(ref.read(allCredentialsProvider).value?.length)}",
+                      "${AppLocalizations.of(context)!.credentials_secured} ${NumberFormat.decimalPattern(AppLocalizations.of(context)!.localeName).format(ref.read(allCredentialsProvider).value?.length)}",
                       style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 28 * context.scaled,

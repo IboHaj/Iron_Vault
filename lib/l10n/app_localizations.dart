@@ -95,9 +95,20 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
-    Locale('ar', 'EG'),
     Locale('en'),
   ];
+
+  /// No description provided for @the_iron_vault.
+  ///
+  /// In en, this message translates to:
+  /// **'The IRON VAULT'**
+  String get the_iron_vault;
+
+  /// No description provided for @locked_down.
+  ///
+  /// In en, this message translates to:
+  /// **'LOCKED DOWN'**
+  String get locked_down;
 
   /// No description provided for @iron_vault.
   ///
@@ -122,6 +133,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SEARCH THE VAULT'**
   String get search_the_vault;
+
+  /// No description provided for @copy_password.
+  ///
+  /// In en, this message translates to:
+  /// **'CPY_PWD'**
+  String get copy_password;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get delete;
 
   /// No description provided for @vault.
   ///
@@ -436,18 +459,6 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-  // Lookup logic when language+country codes are specified.
-  switch (locale.languageCode) {
-    case 'ar':
-      {
-        switch (locale.countryCode) {
-          case 'EG':
-            return AppLocalizationsArEg();
-        }
-        break;
-      }
-  }
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'ar':

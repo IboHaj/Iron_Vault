@@ -1,8 +1,12 @@
 {
+    "the_iron_vault": "The IRON VAULT",
+    "locked_down": "LOCKED DOWN",
     "iron_vault": "IRON VAULT",
     "credentials_secured": "CREDENTIALS SECURED:",
     "main_view_string" : "Credentials are encrypted and stored locally on your device",
     "search_the_vault": "SEARCH THE VAULT",
+    "copy_password": "CPY_PWD",
+    "delete": "DELETE",
     "vault" : "VAULT",
     "pass_generator" : "PASS. GENERATOR",
     "password_generator" : "PASSWORD GENERATOR",

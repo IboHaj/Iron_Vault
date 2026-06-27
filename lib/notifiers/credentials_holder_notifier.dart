@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iron_vault/models/credentials.dart';
 import 'package:iron_vault/services/secure_storage.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CredentialsHolderNotifier extends AsyncNotifier<List<Map<String, Credentials>>> {
   @override
@@ -41,6 +43,15 @@ class CredentialsHolderNotifier extends AsyncNotifier<List<Map<String, Credentia
     state = const AsyncValue.loading();
     await ref.read(storageProvider).deleteAll();
     state = await AsyncValue.guard(() async => await getAllCredentials());
+  }
+
+  Future<void> exportAll() async {
+    Map<String, String> allData = await ref.read(storageProvider).getAllCredentials();
+    String jsonFile = jsonEncode(allData);
+
+    Directory? directory = await getApplicationDocumentsDirectory();
+    File file = File('${directory.path}/IRON_VAULT_CREDENTIALS_EXPORT.json');
+    await file.writeAsString(jsonFile);
   }
 }
 
